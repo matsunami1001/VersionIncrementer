@@ -96,6 +96,10 @@ namespace VersionIncrementer {
                 MessageBox.Show("アセンブリの詳細ファイルが指定されていません (--assemblyInfo <ファイル名>)。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
+            else if (!File.Exists(assemblyInfo)) {
+                MessageBox.Show("アセンブリの詳細ファイルが見つかりません。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
 
             return true;
         }
