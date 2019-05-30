@@ -114,7 +114,7 @@ namespace VersionIncrementer {
                 updaterDictionary = new Dictionary<string, VersionUpdater>();
                 var doc = XDocument.Load(filePath);
 
-                foreach (var element in doc.Elements()) {
+                foreach (var element in doc.Element("Pairs").Elements()) {
                     var projectName = element.Element("ProjectName").Value;
                     var updateRuleElement = element.Element("Updater");
                     var updateModel = new VersionUpdater(
@@ -144,6 +144,7 @@ namespace VersionIncrementer {
         static void SaveConfig(string filePath, Dictionary<string, VersionUpdater> updaterDictionary) {
             var doc = new XDocument(new XDeclaration("1.0", "utf-8", "yes"));
 
+            var pairs = new XElement("Pairs");
             foreach (var pair in updaterDictionary) {
                 var majorRuleElement = convert("MajorVersion", pair.Value.MajorVersionUpdateRule);
                 var minorRuleElement = convert("MinorVersion", pair.Value.MinorVersionUpdateRule);
@@ -154,8 +155,9 @@ namespace VersionIncrementer {
                 var updaterElement = new XElement("Updater", majorRuleElement, minorRuleElement, buildNumberRuleElement, revisionRuleElement);
 
                 var nameUpdaterPairElement = new XElement("NameUpdaterPair", projectNameElement, updaterElement);
-                doc.Add(nameUpdaterPairElement);
+                pairs.Add(nameUpdaterPairElement);
             }
+            doc.Add(pairs);
 
             using (var writer = new StreamWriter(filePath, false, Encoding.UTF8)) {
                 doc.Save(writer);
