@@ -1,0 +1,2 @@
+# VersionIncrementer
+C#とVisualBasic用のビルドバージョン更新アプリ
