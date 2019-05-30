@@ -1,0 +1,74 @@
+<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:VersionIncrementer.Dialog" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="VersionIncrementer.Dialog.UpdateDialog"
+        Title="確認" Width="310" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Height="370" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
+    <Window.DataContext>
+        <local:UpdateDialogModel x:Name="Model"/>
+    </Window.DataContext>
+    <Grid Margin="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="情報" Margin="10,5">
+            <Grid Margin="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Content="プロジェクト名" Height="28" VerticalContentAlignment="Center"/>
+                <Label Content="現在のバージョン" Margin="0,1,0,0" Grid.Row="1" VerticalContentAlignment="Center"/>
+                <TextBox Grid.Column="1" Height="23" Margin="5,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" VerticalContentAlignment="Center" Text="{Binding ProjectName, Mode=OneWay}" Focusable="False" IsReadOnly="True" IsUndoEnabled="False" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}"/>
+                <TextBox Grid.Column="1" Margin="5,0,0,0" TextWrapping="Wrap" Text="{Binding CurrentVersion, Mode=OneWay}" VerticalAlignment="Center" Grid.Row="1" Height="23" VerticalContentAlignment="Center" Focusable="False" IsReadOnly="True" IsUndoEnabled="False" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}"/>
+                <Label Content="更新後のバージョン" Margin="0" Grid.Row="2" VerticalContentAlignment="Center"/>
+                <TextBox Grid.Column="1" Margin="5,0,0,0" TextWrapping="Wrap" Text="{Binding UpdatedVersion, Mode=OneWay}" VerticalAlignment="Center" Grid.Row="2" Height="22" VerticalContentAlignment="Center" Focusable="False" IsReadOnly="True" IsUndoEnabled="False" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="ルール" Margin="10,5,10,10" Grid.Row="1" VerticalContentAlignment="Stretch">
+            <Grid Margin="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="26*"/>
+                    <ColumnDefinition Width="11*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="メジャーバージョン(_M)" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch"/>
+                <ComboBox Grid.Column="1" Margin="3,2" ItemsSource="{Binding Methods}" SelectedItem="{Binding VersionUpdater.MajorVersionUpdateRule.Method, Mode=TwoWay}"/>
+                <TextBox Margin="3" TextWrapping="Wrap" Text="{Binding VersionUpdater.MajorVersionUpdateRule.Argument, Mode=TwoWay, NotifyOnValidationError=True}" VerticalContentAlignment="Center" Grid.Column="2" FontFamily="MS Gothic" MaxLength="5" VerticalAlignment="Center" Height="22"/>
+                <Label Content="マイナーバージョン(_N)" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="0" Grid.Row="1"/>
+                <ComboBox Grid.Column="1" Margin="3,2" Grid.Row="1" ItemsSource="{Binding Methods}" SelectedItem="{Binding VersionUpdater.MinorVersionUpdateRule.Method, Mode=TwoWay}"/>
+                <TextBox Margin="3" TextWrapping="Wrap" Text="{Binding VersionUpdater.MinorVersionUpdateRule.Argument, Mode=TwoWay, NotifyOnValidationError=True}" VerticalContentAlignment="Center" Grid.Column="2" Grid.Row="1" FontFamily="MS Gothic" MaxLength="5" VerticalAlignment="Center" Height="22"/>
+                <Label Content="ビルド番号(_B)" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="0" Grid.Row="2"/>
+                <ComboBox Grid.Column="1" Margin="3,2" Grid.Row="2" ItemsSource="{Binding Methods}" SelectedItem="{Binding VersionUpdater.BuildNumberUpdateRule.Method, Mode=TwoWay}"/>
+                <TextBox Margin="3" TextWrapping="Wrap" Text="{Binding VersionUpdater.BuildNumberUpdateRule.Argument, Mode=TwoWay, NotifyOnValidationError=True}" VerticalAlignment="Center" Height="22" VerticalContentAlignment="Center" Grid.Column="2" Grid.Row="2" FontFamily="MS Gothic" MaxLength="5"/>
+                <Label Content="リビジョン(_R)" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="0" Grid.Row="3" VerticalAlignment="Center" Height="28"/>
+                <ComboBox Grid.Column="1" Margin="3,2" Grid.Row="3" ItemsSource="{Binding Methods}" SelectedItem="{Binding VersionUpdater.RevisionUpdateRule.Method, Mode=TwoWay}"/>
+                <TextBox Margin="3" TextWrapping="Wrap" Text="{Binding VersionUpdater.RevisionUpdateRule.Argument, Mode=TwoWay, NotifyOnValidationError=True}" Height="22" VerticalContentAlignment="Center" Grid.Column="2" Grid.Row="3" FontFamily="MS Gothic" MaxLength="5" VerticalAlignment="Center"/>
+            </Grid>
+        </GroupBox>
+        <Grid Margin="0" Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <CheckBox Content="この設定を次回も使用する" HorizontalAlignment="Left" Margin="10,5,0,5" IsChecked="{Binding SaveConfig, Mode=TwoWay}"/>
+            <Button Content="キャンセル(_C)" Margin="0,5,10,10" Grid.Row="1" HorizontalAlignment="Right" Width="80" VerticalAlignment="Bottom" Click="CancelButton_Click"/>
+            <Button Content="OK(_O)" Margin="0,5,95,10" Grid.Row="1" HorizontalAlignment="Right" Width="80" VerticalAlignment="Bottom" Click="OKButton_Click"/>
+        </Grid>
+    </Grid>
+</Window>
