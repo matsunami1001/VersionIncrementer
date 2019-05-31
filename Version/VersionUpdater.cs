@@ -26,13 +26,13 @@ namespace VersionIncrementer.Version {
             RevisionUpdateRule.PropertyChanged += (sender, e) => OnRuleChanged((VersionUpdateRule)sender);
         }
 
-        public VersionUpdateRule MajorVersionUpdateRule { get; set; }
+        public VersionUpdateRule MajorVersionUpdateRule { get; }
 
-        public VersionUpdateRule MinorVersionUpdateRule { get; set; }
+        public VersionUpdateRule MinorVersionUpdateRule { get; }
 
-        public VersionUpdateRule BuildNumberUpdateRule { get; set; }
+        public VersionUpdateRule BuildNumberUpdateRule { get; }
 
-        public VersionUpdateRule RevisionUpdateRule { get; set; }
+        public VersionUpdateRule RevisionUpdateRule { get; }
 
         public event Action<VersionUpdateRule> RuleChanged;
 
