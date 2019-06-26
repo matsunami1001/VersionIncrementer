@@ -2,7 +2,7 @@
 C#とVisualBasic用のビルドバージョン更新アプリ
 ### 使い方
 ビルド前イベントに以下のように記述(C# プロジェクトの場合):  
-`VersionIncrementer.exe --ProjectName "$(ProjectName)" --AssemblyInfo "$(ProjectPath)Properties\AssemblyInfo.cs"`  
+`VersionIncrementer.exe --ProjectName "$(ProjectName)" --AssemblyInfo "$(ProjectDir)Properties\AssemblyInfo.cs"`  
 GUIによって、現在のバージョンのそれぞれのセクションをどう更新するかどうかを指定できます。  
 ##### None
 何もしません。
